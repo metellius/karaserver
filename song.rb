@@ -39,4 +39,8 @@ class Song
         end
     end
 
+    def match term
+        @filename.include?(term)
+    end
+
 end

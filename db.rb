@@ -18,4 +18,14 @@ class Database
         end
     end
 
+    def search term
+        results = []
+        @songs.each do |song|
+            if song.match(term)
+                results.push song
+            end
+        end
+        return results
+    end
+
 end

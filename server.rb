@@ -6,8 +6,9 @@ class ClientQuitError < RuntimeError; end
 
 class Server
 
-    def initialize db, port
+    def initialize db, player, port
         @db = db
+        @player = player
         @server = TCPServer.open(port)
 
         port = @server.addr[1]
@@ -30,16 +31,44 @@ class Server
 
                 puts "*** recieving from #{name}:#{port}"
 
+                myresults = nil
+
                 begin
-                    while line = s.gets # read a line at a time
+                    while line = s.gets.chomp # read a line at a time
                         raise ClientQuitError if line =~ /^die\r?$/
-                            puts "#{addr} [#{Time.now}]: #{line}"
+                        puts "#{addr} [#{Time.now}]: #{line}"
+
+                        args = line.split(" ")
+                        command = args.shift
+
+                        case command
+                        when "#order#"
+                            id = args[0].to_i
+                            puts "order" + id.to_s
+                            if myresults != nil
+                                thesong = myresults[id]
+                                if thesong != nil
+                                    @player.queue(thesong)
+                                end
+                            end
+                        else
+                            puts "Searching for " + line
+                            myresults = @db.search(line)
+                            myresults.each_with_index do |song, i|
+                                s.print(song.to_s + i.to_s + "\n")
+                            end
+                            s.print("#endresponse#\n")
+                        end
                     end
 
                 rescue ClientQuitError
                     puts "*** #{name}:#{port} disconnected"
 
+                rescue StandardError => e
+                    puts e
+
                 ensure
+                    puts "*** Closed socket"
                     s.close # close socket on error
                 end
 

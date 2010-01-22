@@ -1,13 +1,17 @@
 require 'db.rb'
 require 'server.rb'
+require 'player.rb'
 
 db = Database.new
 db.addFolder("songs")
 
 puts db.songs
 
-#song = db.songs[2]
-#song.play
+player = Player.new
 
-server = Server.new(db, 12345)
+Thread.new do
+    player.play_queue
+end
+
+server = Server.new(db, player, 12345)
 server.listen
