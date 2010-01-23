@@ -5,7 +5,7 @@ $PyFolder = "./pykaraoke-0.7.2/"
 
 class Song
 
-    def initialize filename
+    def initialize filename, title
         case filename[-3,3].upcase
         when "ZIP"
             @type = :Zip
@@ -13,10 +13,11 @@ class Song
             @type = :Cdg
         end
         @filename = filename
+		@title = title
     end
 
     def to_s
-        @filename + " " + @type.to_s
+		@title
     end
 
     def unzip_to_tmp

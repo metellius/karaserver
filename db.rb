@@ -9,13 +9,12 @@ class Database
     end
 
     def addFolder folder
-        Dir.glob("#{folder}/**/*.zip").each do |zipsong|
-            @songs.push(Song.new(zipsong))
-        end
-
-        Dir.glob("#{folder}/**/*.cdg").each do |cdgsong|
-            @songs.push(Song.new(cdgsong))
-        end
+		["zip", "cdg"].each do |type|
+			Dir.glob("#{folder}/**/*.#{type}").each do |filename|
+				split = File.split(filename)
+				@songs.push(Song.new(filename, split[1]))
+			end
+		end
     end
 
     def search term
@@ -27,5 +26,4 @@ class Database
         end
         return results
     end
-
 end

@@ -1,3 +1,4 @@
+#!/usr/bin/ruby -K
 require 'db.rb'
 require 'server.rb'
 require 'player.rb'
@@ -7,7 +8,7 @@ require 'Qt'
 app = Qt::Application.new(ARGV)
 
 db = Database.new
-db.addFolder("songs")
+db.addFolder("/home/harald/Karaoke/")
 
 puts db.songs
 
