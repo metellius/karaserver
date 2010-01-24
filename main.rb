@@ -10,8 +10,6 @@ app = Qt::Application.new(ARGV)
 db = Database.new
 db.addFolder("/home/harald/Karaoke/")
 
-puts db.songs
-
 player = Player.new
 
 Thread.new do

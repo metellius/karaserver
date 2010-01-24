@@ -3,6 +3,22 @@ require 'fileutils.rb'
 
 $PyFolder = "./pykaraoke-0.7.2/"
 
+$pykarprocess = IO.popen($PyFolder + "control.py", "w+")
+
+
+def pykarplay filename
+	$pykarprocess.puts(filename)
+	while line = $pykarprocess.gets.chomp
+		if line == "finished"
+			return
+		end
+	end
+end
+
+def pykarstop
+	$pykarprocess.puts("#stop#")
+end
+
 class Song
 
     def initialize filename, title
@@ -32,13 +48,17 @@ class Song
             tmpdir = unzip_to_tmp
             cdgfile = Dir.glob(tmpdir + "/*.cdg")[0]
 
-            system("#{$PyFolder}pycdg.py \"#{cdgfile}\"")
-            FileUtils.rm_rf(tmpdir)
-            puts "removing " + tmpdir
+            pykarplay(cdgfile)
+            #FileUtils.rm_rf(tmpdir)
+            #puts "removing " + tmpdir
         when :Cdg
-            system("#{$PyFolder}pycdg.py \"#{@filename}\"")
+            pykarplay(@filename)
         end
     end
+
+	def stop
+		pykarstop
+	end
 
     def match term
         @filename.include?(term)

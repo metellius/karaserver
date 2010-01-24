@@ -7,6 +7,7 @@ class Player
         @queue = []
         @pause = Ui_PauseDisplay.new
         @pause.show
+        @playing = nil
     end
 
     def queue song
@@ -41,10 +42,16 @@ class Player
 
             @pause.hide
 
+            @playing = song
             song.play
+            @playing = nil
             @pause.show
 
         end
     end
-
+    
+    def stop
+        return if not @playing
+        @playing.stop
+    end
 end
