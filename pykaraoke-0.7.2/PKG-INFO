@@ -1,0 +1,20 @@
+Metadata-Version: 1.0
+Name: pykaraoke
+Version: 0.7.2
+Summary: PyKaraoke = CD+G/MPEG/KAR Karaoke Player
+Home-page: http://www.kibosh.org/pykaraoke
+Author: Kelvin Lawson
+Author-email: kelvin@kibosh.org
+License: LGPL
+Description: PyKaraoke - CD+G/MPEG/KAR Karaoke Player
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: X11 Applications
+Classifier: Environment :: Win32 (MS Windows)
+Classifier: Intended Audience :: End Users/Desktop
+Classifier: License :: OSI Approved :: GNU Library or Lesser General Public License (LGPL)
+Classifier: Operating System :: Microsoft :: Windows
+Classifier: Operating System :: POSIX
+Classifier: Programming Language :: Python
+Classifier: Topic :: Games/Entertainment
+Classifier: Topic :: Multimedia :: Sound/Audio :: Players

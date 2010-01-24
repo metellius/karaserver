@@ -8,7 +8,7 @@ require 'Qt'
 app = Qt::Application.new(ARGV)
 
 db = Database.new
-db.addFolder("/home/harald/Karaoke/")
+db.addFolder("/home/pvv/d/haraldhv/src/songs/")
 
 player = Player.new
 

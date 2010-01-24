@@ -3,10 +3,13 @@ require 'fileutils.rb'
 
 $PyFolder = "./pykaraoke-0.7.2/"
 
-$pykarprocess = IO.popen($PyFolder + "control.py", "w+")
-
 
 def pykarplay filename
+
+    if not $pykarprocess
+        $pykarprocess = IO.popen($PyFolder + "control.py", "w+")
+    end
+
 	$pykarprocess.puts(filename)
 	while line = $pykarprocess.gets.chomp
 		if line == "finished"
@@ -19,6 +22,10 @@ def pykarstop
 	$pykarprocess.puts("#stop#")
 end
 
+def pykarpause
+	$pykarprocess.puts("#pause#")
+end
+
 class Song
 
     def initialize filename, title
@@ -29,7 +36,7 @@ class Song
             @type = :Cdg
         end
         @filename = filename
-		@title = title
+		@title = title.gsub(".cdg", "").gsub(".zip","")
     end
 
     def to_s
@@ -59,6 +66,15 @@ class Song
 	def stop
 		pykarstop
 	end
+
+    def restart
+        pykarstop
+        pykarplay
+    end
+
+    def pause
+        pykarpause
+    end
 
     def match term
         @filename.include?(term)

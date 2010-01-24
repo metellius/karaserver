@@ -54,6 +54,10 @@ class Server
                             s.print("#endresponse#\n")
 						when "#stop#"
 							@player.stop
+                        when "#pause#"
+							@player.pause
+                        when "#restart#"
+							@player.restart
                         else
                             puts "Searching for " + line
                             myresults = @db.search(line)

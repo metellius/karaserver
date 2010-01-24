@@ -1,12 +1,18 @@
 require 'song.rb'
 require 'pause.rb'
 
+
+def startstopmusic
+    `dbus-send --print-reply --type=method_call --dest=org.kde.amarok /Player org.freedesktop.MediaPlayer.PlayPause`
+end
+
 class Player
 
     def initialize
         @queue = []
         @pause = Ui_PauseDisplay.new
         @pause.show
+        @pause.raise
         @playing = nil
     end
 
@@ -18,12 +24,18 @@ class Player
         loop do
             song = @queue.shift
             if song == nil
+                startstopmusic
+
                 @pause.set_next_song("")
                 @pause.set_queue("")
 
-                @pause.repaint
-                Qt::CoreApplication.processEvents
-                sleep(0.5)
+                while @queue.empty?
+                    @pause.repaint
+                    Qt::CoreApplication.processEvents
+                    sleep(0.5)
+                end
+
+                startstopmusic
                 next
             end
 
@@ -46,6 +58,7 @@ class Player
             song.play
             @playing = nil
             @pause.show
+            @pause.raise
 
         end
     end
@@ -54,4 +67,15 @@ class Player
         return if not @playing
         @playing.stop
     end
+
+    def pause
+        return if not @playing
+        @playing.pause
+    end
+
+    def restart
+        return if not @playing
+        @playing.restart
+    end
+
 end
