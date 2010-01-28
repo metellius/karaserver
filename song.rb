@@ -26,6 +26,30 @@ def pykarpause
 	$pykarprocess.puts("#pause#")
 end
 
+def vidplay filename
+	$vidprocess = IO.popen("mplayer -slave \"#{filename}\"", "w+")
+
+	#$vidprocess.puts(filename)
+	while line = $vidprocess.gets.chomp
+		if line.include?("Exiting")
+			return
+		end
+	end
+	$vidprocess = nil
+end
+
+def vidstop
+	if $vidprocess
+		$vidprocess.puts "stop"
+	end
+end
+
+def vidpause
+	if $vidprocess
+		$vidprocess.puts "pause"
+	end
+end
+
 class Song
 
     def initialize filename, title
@@ -34,9 +58,22 @@ class Song
             @type = :Zip
         when "CDG"
             @type = :Cdg
+		when "AVI"
+			@type = :Vid
+		when "MPG"
+			@type = :Vid
         end
         @filename = filename
-		@title = title.gsub(".cdg", "").gsub(".zip","")
+
+		@upper = filename.gsub("/home/harald", "").upcase
+
+		@title = title.clone
+		[".cdg", ".CDG", ".zip", ".ZIP", ".avi", ".AVI", ".mpg", ".MPG"].each do |ext|
+			@title.gsub!(ext, "")
+		end
+
+		@title.gsub!(/SF\d+-\d+/, "")
+		@title.strip!
     end
 
     def to_s
@@ -56,28 +93,32 @@ class Song
             cdgfile = Dir.glob(tmpdir + "/*.cdg")[0]
 
             pykarplay(cdgfile)
-            #FileUtils.rm_rf(tmpdir)
-            #puts "removing " + tmpdir
+            FileUtils.rm_rf(tmpdir)
+            puts "removing " + tmpdir
         when :Cdg
             pykarplay(@filename)
+		when :Vid
+			vidplay(@filename)
         end
     end
 
 	def stop
-		pykarstop
+		pykarstop if @type == :Zip or @type == :Cdg
+		vidstop if @type == :Vid
 	end
 
     def restart
-        pykarstop
-        pykarplay
+        pykarstop if @type == :Zip or @type == :Cdg
+        pykarplay if @type == :Zip or @type == :Cdg
     end
 
     def pause
-        pykarpause
+        pykarpause if @type == :Zip or @type == :Cdg
+		vidpause if @type == :Vid
     end
 
     def match term
-        @filename.include?(term)
+        @upper.include?(term)
     end
 
 end

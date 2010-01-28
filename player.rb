@@ -3,7 +3,7 @@ require 'pause.rb'
 
 
 def startstopmusic
-    `dbus-send --print-reply --type=method_call --dest=org.kde.amarok /Player org.freedesktop.MediaPlayer.PlayPause`
+    #`dbus-send --print-reply --type=method_call --dest=org.kde.amarok /Player org.freedesktop.MediaPlayer.PlayPause`
 end
 
 class Player
@@ -17,6 +17,9 @@ class Player
     end
 
     def queue song
+		#l = Qt::Label.new("<h1>halla</h1>")
+		#l.setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint)
+		#l.show
         @queue.push song
     end
 

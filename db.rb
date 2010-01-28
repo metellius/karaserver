@@ -9,7 +9,7 @@ class Database
     end
 
     def addFolder folder
-		["zip", "cdg"].each do |type|
+		["zip", "cdg", "avi"].each do |type|
 			Dir.glob("#{folder}/**/*.#{type}").each do |filename|
 				split = File.split(filename)
 				@songs.push(Song.new(filename, split[1]))
@@ -17,10 +17,15 @@ class Database
 		end
     end
 
+	def sort!
+		@songs.sort! { |a,b| a.to_s <=> b.to_s }
+	end
+
     def search term
         results = []
+		upper = term.upcase
         @songs.each do |song|
-            if song.match(term)
+            if song.match(upper)
                 results.push song
             end
         end

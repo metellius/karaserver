@@ -62,7 +62,7 @@ class Server
                             puts "Searching for " + line
                             myresults = @db.search(line)
                             myresults.each_with_index do |song, i|
-                                s.print(i.to_s + " " + song.to_s + "\n")
+                                s.print(i.to_s + "##" + song.to_s + "\n")
                             end
                             s.print("#endresponse#\n")
                         end

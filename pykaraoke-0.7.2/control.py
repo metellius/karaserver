@@ -16,8 +16,7 @@ def ErrorPopupCallback(ErrorString):
     print ErrorString
 
 def SongFinishedCallback():
-    #global player
-    #player.Close()
+    manager.CloseDisplay()
     print "finished"
     sys.stdout.flush()
 
