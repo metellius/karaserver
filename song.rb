@@ -52,6 +52,8 @@ end
 
 class Song
 
+	attr_reader :filename
+
     def initialize filename, title
         case filename[-3,3].upcase
         when "ZIP"
@@ -87,6 +89,7 @@ class Song
     end
 
     def play
+		puts "play" + @filename
         case @type
         when :Zip
             tmpdir = unzip_to_tmp

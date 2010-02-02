@@ -14,6 +14,9 @@ class Player
         @pause.show
         @pause.raise
         @playing = nil
+
+		restore_backup
+
     end
 
     def queue song
@@ -21,7 +24,26 @@ class Player
 		#l.setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint)
 		#l.show
         @queue.push song
+		backup_queue
     end
+
+	def backup_queue
+		f = File.open("/tmp/karaokebackup", "w")
+		@queue.each do |song|
+			f.puts song.filename
+		end
+		f.close
+	end
+
+	def restore_backup
+		if File.exist?("/tmp/karaokebackup")
+			File.readlines("/tmp/karaokebackup").each do |filename|
+				filename.chomp!
+				split = File.split(filename)
+				queue(Song.new(filename, split[1]))
+			end
+		end
+	end
 
     def play_queue
         loop do
@@ -65,6 +87,19 @@ class Player
 
         end
     end
+
+	def change_sound order
+		case order
+		when :Mic_up
+			exec("amixer -c 3 set Mic 2+")
+		when :Mic_down
+			exec("amixer -c 3 set Mic 2-")
+		when :Music_up
+			exec("amixer -c 3 set Mic 2+")
+		when :Music_down
+			exec("amixer -c 3 set Mic 2-")
+		end
+	end
     
     def stop
         return if not @playing

@@ -58,6 +58,14 @@ class Server
 							@player.pause
                         when "#restart#"
 							@player.restart
+						when "#mic_up#"
+							@player.change_sound(:Mic_up)
+						when "#mic_down#"
+							@player.change_sound(:Mic_down)
+						when "#music_up#"
+							@player.change_sound(:Music_up)
+						when "#music_down#"
+							@player.change_sound(:Music_down)
                         else
                             puts "Searching for " + line
                             myresults = @db.search(line)
