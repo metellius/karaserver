@@ -44,10 +44,11 @@ def play(file):
     if player:
         player.Play()
 
-def pause():
+def restart():
     global player
     if player:
-        player.Pause()
+        player.Rewind()
+        player.Play()
 
 class PlayerThread(Thread):
     def __init__ (self):
@@ -58,8 +59,8 @@ class PlayerThread(Thread):
             line = sys.stdin.readline()[:-1]
             if line == "#stop#":
                 stop()
-            if line == "#pause#":
-                pause()
+            if line == "#restart#":
+                restart()
             elif line == "#exit#":
                 global doexit
                 doexit = True

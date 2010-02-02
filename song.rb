@@ -22,12 +22,12 @@ def pykarstop
 	$pykarprocess.puts("#stop#")
 end
 
-def pykarpause
-	$pykarprocess.puts("#pause#")
+def pykarrestart
+	$pykarprocess.puts("#restart#")
 end
 
 def vidplay filename
-	$vidprocess = IO.popen("mplayer -slave \"#{filename}\"", "w+")
+	$vidprocess = IO.popen("mplayer -ao jack:port=renoise -slave \"#{filename}\"", "w+")
 
 	#$vidprocess.puts(filename)
 	while line = $vidprocess.gets.chomp
@@ -44,9 +44,9 @@ def vidstop
 	end
 end
 
-def vidpause
+def vidrestart
 	if $vidprocess
-		$vidprocess.puts "pause"
+		$vidprocess.puts "seek -999999999999999"
 	end
 end
 
@@ -111,13 +111,8 @@ class Song
 	end
 
     def restart
-        pykarstop if @type == :Zip or @type == :Cdg
-        pykarplay if @type == :Zip or @type == :Cdg
-    end
-
-    def pause
-        pykarpause if @type == :Zip or @type == :Cdg
-		vidpause if @type == :Vid
+        pykarrestart if @type == :Zip or @type == :Cdg
+        vidrestart if @type == :Vid
     end
 
     def match term

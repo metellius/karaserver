@@ -54,8 +54,6 @@ class Server
                             s.print("#endresponse#\n")
 						when "#stop#"
 							@player.stop
-                        when "#pause#"
-							@player.pause
                         when "#restart#"
 							@player.restart
 						when "#mic_up#"

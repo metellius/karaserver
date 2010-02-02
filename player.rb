@@ -65,10 +65,12 @@ class Player
             end
 
             @pause.set_next_song(song.to_s)
-            q = ""
-            @queue.each do |qsong|
-                q += qsong.to_s + "\n"
-            end
+
+            q = @queue[0,5].map{|qsong| qsong.to_s}.join("\n")
+			if @queue.size > 5
+				q += "\n[+++]"
+			end
+
             @pause.set_queue(q)
 
             8.times do
@@ -105,11 +107,6 @@ class Player
     def stop
         return if not @playing
         @playing.stop
-    end
-
-    def pause
-        return if not @playing
-        @playing.pause
     end
 
     def restart
