@@ -50,6 +50,17 @@ def vidrestart
 	end
 end
 
+def midival val
+	if val > 127
+		127
+	elsif val < 0
+		0
+	else
+		val
+	end
+end
+
+
 class Song
 
 	attr_reader :filename
@@ -90,6 +101,14 @@ class Song
 
     def play
 		puts "play" + @filename
+		@pitch = 64
+		@volume = 55
+
+		#reset gain
+		`midisend -a "Renoise MIDI Input:1" --control 01 02 #{@volume}`
+		
+		#disable pitchshift
+		`midisend -a "Renoise MIDI Input:1" --control 01 25 0`
         case @type
         when :Zip
             tmpdir = unzip_to_tmp
@@ -114,6 +133,37 @@ class Song
         pykarrestart if @type == :Zip or @type == :Cdg
         vidrestart if @type == :Vid
     end
+
+	def updatepitch
+		if (@pitch-64).abs <= 15
+			`midisend -a "Renoise MIDI Input:1" --control 01 25 0`
+			@pitch = 64
+		else
+			`midisend -a "Renoise MIDI Input:1" --control 01 25 127`
+		end
+
+		`midisend -a "Renoise MIDI Input:1" --control 01 04 #{@pitch}`
+	end
+
+	def pitch_up
+		@pitch = midival(@pitch + 20)
+		updatepitch
+	end
+
+	def pitch_down
+		@pitch = midival(@pitch - 20)
+		updatepitch
+	end
+
+	def volume_up
+		@volume = midival(@volume + 20)
+		`midisend -a "Renoise MIDI Input:1" --control 01 02 #{@volume}`
+	end
+
+	def volume_down
+		@volume = midival(@volume - 20)
+		`midisend -a "Renoise MIDI Input:1" --control 01 02 #{@volume}`
+	end
 
     def match term
         @upper.include?(term)

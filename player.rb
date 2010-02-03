@@ -3,7 +3,7 @@ require 'pause.rb'
 
 
 def startstopmusic
-    #`dbus-send --print-reply --type=method_call --dest=org.kde.amarok /Player org.freedesktop.MediaPlayer.PlayPause`
+    `dbus-send --print-reply --type=method_call --dest=org.kde.amarok /Player org.freedesktop.MediaPlayer.PlayPause`
 end
 
 class Player
@@ -98,9 +98,13 @@ class Player
 		when :Mic_down
 			`amixer -c 3 set Mic 2-`
 		when :Music_up
-			`amixer -c 3 set Mic 2+`
+			@playing.volume_up unless not @playing
 		when :Music_down
-			`amixer -c 3 set Mic 2-`
+			@playing.volume_down unless not @playing
+		when :Pitch_up
+			@playing.pitch_up unless not @playing
+		when :Pitch_down
+			@playing.pitch_down unless not @playing
 		end
 	end
     

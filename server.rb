@@ -64,6 +64,10 @@ class Server
 							@player.change_sound(:Music_up)
 						when "#music_down#"
 							@player.change_sound(:Music_down)
+						when "#pitch_up#"
+							@player.change_sound(:Pitch_up)
+						when "#pitch_down#"
+							@player.change_sound(:Pitch_down)
 						when "#reload#"
 							@db.reload!
                         else
