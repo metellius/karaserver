@@ -6,6 +6,7 @@ class Database
 
     def initialize
         @songs = []
+		@folders = []
     end
 
     def addFolder folder
@@ -15,10 +16,18 @@ class Database
 				@songs.push(Song.new(filename, split[1]))
 			end
 		end
+		@folders << folder if not @folders.include?(folder)
     end
 
 	def sort!
 		@songs.sort! { |a,b| a.to_s <=> b.to_s }
+	end
+
+	def reload!
+		@songs.clear
+		@folders.each do |folder|
+			addFolder(folder)
+		end
 	end
 
     def search term

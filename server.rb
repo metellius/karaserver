@@ -64,6 +64,8 @@ class Server
 							@player.change_sound(:Music_up)
 						when "#music_down#"
 							@player.change_sound(:Music_down)
+						when "#reload#"
+							@db.reload!
                         else
                             puts "Searching for " + line
                             myresults = @db.search(line)
