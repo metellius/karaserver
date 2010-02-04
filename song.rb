@@ -112,7 +112,11 @@ class Song
         case @type
         when :Zip
             tmpdir = unzip_to_tmp
+
             cdgfile = Dir.glob(tmpdir + "/*.cdg")[0]
+			if not cdgfile
+				cdgfile = Dir.glob(tmpdir + "/*.CDG")[0]
+			end
 
             pykarplay(cdgfile)
             FileUtils.rm_rf(tmpdir)
