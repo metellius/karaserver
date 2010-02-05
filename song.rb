@@ -85,7 +85,10 @@ class Song
 			@title.gsub!(ext, "")
 		end
 
-		@title.gsub!(/SF\d+-\d+/, "")
+		@title.gsub!("_", " ")
+		@title.gsub!(/^[a-zA-z]{2,4}\d{2,5}-\d{2,4}(\s*-*\s)?/, "")
+		@title.gsub!("[video][jap] カラオケ", "") 
+		@title.gsub!("[video] ", "") 
 		@title.strip!
     end
 
