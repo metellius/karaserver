@@ -10,12 +10,21 @@ def pykarplay filename
         $pykarprocess = IO.popen($PyFolder + "control.py", "w+")
     end
 
-	$pykarprocess.puts(filename)
-	while line = $pykarprocess.gets.chomp
-		if line == "finished"
-			return
-		end
-	end
+    #for buggy files we do a simple retry
+    10.times do
+        startedsong = Time.now
+
+        $pykarprocess.puts(filename)
+        while line = $pykarprocess.gets.chomp
+            if line == "finished"
+                break
+            end
+        end
+
+        break if Time.now - startedsong > 4
+        sleep 1
+    end
+
 end
 
 def pykarstop
