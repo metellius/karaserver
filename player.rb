@@ -94,9 +94,9 @@ class Player
 		puts order.to_s
 		case order
 		when :Mic_up
-			`amixer -c 3 set Mic 2+`
+			`amixer -c 2 set Mic 2+`
 		when :Mic_down
-			`amixer -c 3 set Mic 2-`
+			`amixer -c 2 set Mic 2-`
 		when :Music_up
 			@playing.volume_up unless not @playing
 		when :Music_down

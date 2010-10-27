@@ -32,11 +32,16 @@ class Database
 
     def search term
         results = []
-		upper = term.upcase
+		words = term.upcase.split(" ")
         @songs.each do |song|
-            if song.match(upper)
-                results.push song
-            end
+			match = true
+			words.each do |word|
+				if not song.match(word)
+					match = false
+					break
+				end
+			end
+			results.push song if match
         end
         return results
     end

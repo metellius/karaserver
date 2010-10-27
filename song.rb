@@ -117,10 +117,10 @@ class Song
 		@volume = 55
 
 		#reset gain
-		`midisend -a "Renoise MIDI Input:1" --control 01 02 #{@volume}`
+		`midisend -a "Renoise MIDI Input:2" --control 01 02 #{@volume}`
 		
 		#disable pitchshift
-		`midisend -a "Renoise MIDI Input:1" --control 01 25 0`
+		`midisend -a "Renoise MIDI Input:2" --control 01 25 0`
         case @type
         when :Zip
             tmpdir = unzip_to_tmp
@@ -152,13 +152,13 @@ class Song
 
 	def updatepitch
 		if (@pitch-64).abs <= 15
-			`midisend -a "Renoise MIDI Input:1" --control 01 25 0`
+			`midisend -a "Renoise MIDI Input:2" --control 01 25 0`
 			@pitch = 64
 		else
-			`midisend -a "Renoise MIDI Input:1" --control 01 25 127`
+			`midisend -a "Renoise MIDI Input:2" --control 01 25 127`
 		end
 
-		`midisend -a "Renoise MIDI Input:1" --control 01 04 #{@pitch}`
+		`midisend -a "Renoise MIDI Input:2" --control 01 04 #{@pitch}`
 	end
 
 	def pitch_up
@@ -173,12 +173,12 @@ class Song
 
 	def volume_up
 		@volume = midival(@volume + 20)
-		`midisend -a "Renoise MIDI Input:1" --control 01 02 #{@volume}`
+		`midisend -a "Renoise MIDI Input:2" --control 01 02 #{@volume}`
 	end
 
 	def volume_down
 		@volume = midival(@volume - 20)
-		`midisend -a "Renoise MIDI Input:1" --control 01 02 #{@volume}`
+		`midisend -a "Renoise MIDI Input:2" --control 01 02 #{@volume}`
 	end
 
     def match term
