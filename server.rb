@@ -41,8 +41,10 @@ class Server
                         args = line.split(" ")
                         command = args.shift
 
+						puts "client --> " + line
+
                         case command
-                        when "#order#"
+                        when "order"
                             id = args[0].to_i
                             puts "order" + id.to_s
                             if myresults != nil
@@ -51,32 +53,45 @@ class Server
                                     @player.queue(thesong)
                                 end
                             end
-                            s.print("#endresponse#\n")
-						when "#stop#"
+                            s.print("<end>\n")
+						when "stop"
 							@player.stop
-                        when "#restart#"
+                            s.print("<end>\n")
+                        when "restart"
 							@player.restart
-						when "#mic_up#"
+                            s.print("<end>\n")
+						when "mic_up"
 							@player.change_sound(:Mic_up)
-						when "#mic_down#"
+                            s.print("<end>\n")
+						when "mic_down"
 							@player.change_sound(:Mic_down)
-						when "#music_up#"
+                            s.print("<end>\n")
+						when "music_up"
 							@player.change_sound(:Music_up)
-						when "#music_down#"
+                            s.print("<end>\n")
+						when "music_down"
 							@player.change_sound(:Music_down)
-						when "#pitch_up#"
+                            s.print("<end>\n")
+						when "pitch_up"
 							@player.change_sound(:Pitch_up)
-						when "#pitch_down#"
+                            s.print("<end>\n")
+						when "pitch_down"
 							@player.change_sound(:Pitch_down)
-						when "#reload#"
+                            s.print("<end>\n")
+						when "reload"
 							@db.reload!
-                        else
-                            puts "Searching for " + line
-                            myresults = @db.search(line)
+                            s.print("<end>\n")
+						when "search"
+							terms = args.join(" ")
+                            puts "Searching for " + terms
+                            myresults = @db.search(terms)
                             myresults.each_with_index do |song, i|
                                 s.print(i.to_s + "##" + song.to_s + "\n")
                             end
-                            s.print("#endresponse#\n")
+                            s.print("<end>\n")
+						else
+                            s.print("<error> Unknown command\n")
+                            s.print("<end>\n")
                         end
                     end
 

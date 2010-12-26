@@ -9,7 +9,7 @@ app = Qt::Application.new(ARGV)
 
 db = Database.new
 #db.addFolder("/home/pvv/d/haraldhv/src/songs/")
-db.addFolder("/home/harald/Karaoke/")
+db.addFolder("/home/hhv/Karaoke/")
 db.sort!
 
 player = Player.new
