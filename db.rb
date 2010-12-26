@@ -7,17 +7,24 @@ class Database
     def initialize
         @songs = []
 		@folders = []
+		@sidhash = {}
     end
 
     def addFolder folder
 		["zip", "cdg", "avi"].each do |type|
 			Dir.glob("#{folder}/**/*.#{type}").each do |filename|
 				split = File.split(filename)
-				@songs.push(Song.new(filename, split[1]))
+				song = Song.new(filename, split[1])
+				@songs.push(song)
+				@sidhash[song.sid] = song
 			end
 		end
 		@folders << folder if not @folders.include?(folder)
     end
+
+	def lookup sid
+		return @sidhash[sid]
+	end
 
 	def sort!
 		@songs.sort! { |a,b| a.to_s <=> b.to_s }
@@ -25,6 +32,7 @@ class Database
 
 	def reload!
 		@songs.clear
+		@sidhash.clear
 		@folders.each do |folder|
 			addFolder(folder)
 		end

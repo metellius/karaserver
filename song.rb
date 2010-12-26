@@ -73,6 +73,8 @@ end
 class Song
 
 	attr_reader :filename
+	attr_reader :sid
+	@@nextsid = 0
 
     def initialize filename, title
         case filename[-3,3].upcase
@@ -99,6 +101,9 @@ class Song
 		@title.gsub!("[video][jap] カラオケ", "") 
 		@title.gsub!("[video] ", "") 
 		@title.strip!
+
+		@sid = @@nextsid
+		@@nextsid += 1
     end
 
     def to_s

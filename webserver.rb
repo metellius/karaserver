@@ -10,9 +10,6 @@ class WebServer
 		puts "Opening webserver at #{port}"
         @server = TCPServer.open(port)
 
-		@sidsongs = {}
-		@nextsid = 1
-
         port = @server.addr[1]
         addrs = @server.addr[2..-1].uniq
         puts "*** initing on #{addrs.collect{|a|"#{a}:#{port}"}.join(' ')}"
@@ -47,8 +44,8 @@ class WebServer
 
 			if params
 				if params.include?("order")
-					nr = params["order"].join(" ").to_i
-					song = @sidsongs[nr]
+					sid = params["order"].join(" ").to_i
+					song = @db.lookup(sid)
 					if song
 						@player.queue(song)
 					end
@@ -60,9 +57,7 @@ class WebServer
 					puts "Searching for " + terms
 					myresults = @db.search(terms)
 					myresults.each do |song|
-						@sidsongs[@nextsid] = song
-						connection.print("<a href=\"/?order=#{@nextsid.to_s}\">#{song.to_s}</a><br />\r\n")
-						@nextsid += 1
+						connection.print("<a href=\"/?order=#{song.sid.to_s}\">#{song.to_s}</a><br />\r\n")
 					end
 				end
 			end
