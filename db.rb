@@ -11,7 +11,7 @@ class Database
     end
 
     def addFolder folder
-		["zip", "cdg", "avi"].each do |type|
+		["zip", "cdg", "avi", "flv", "mp4"].each do |type|
 			Dir.glob("#{folder}/**/*.#{type}").each do |filename|
 				split = File.split(filename)
 				song = Song.new(filename, split[1])

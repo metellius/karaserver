@@ -54,7 +54,7 @@ class JsonServer
                     songHashList = []
                     myresults = @db.search(terms)
                     myresults.each do |song|
-                        songHashList.push({"title" => song.to_s, "id" => song.sid.to_s })
+                        songHashList.push({"title" => song.to_s.gsub(/ - /, "\n"), "id" => song.sid.to_s })
                     end
                     result = { "songs" => songHashList }
                     connection.puts(result.to_json)

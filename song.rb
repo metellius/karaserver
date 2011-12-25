@@ -73,6 +73,7 @@ end
 class Song
 
 	attr_reader :filename
+	attr_reader :hashid
 	attr_reader :sid
 	@@nextsid = 0
 
@@ -100,7 +101,11 @@ class Song
 		@title.gsub!(/^[a-zA-z]{2,4}\d{2,5}-\d{2,4}(\s*-*\s)?/, "")
 		@title.gsub!("[video][jap] カラオケ", "") 
 		@title.gsub!("[video] ", "") 
+		@title.gsub!("[korea] ", "") 
+        @title.gsub!(/\b\w/){$&.upcase} #titlecase
 		@title.strip!
+
+        generate_hashid
 
 		@sid = @@nextsid
 		@@nextsid += 1
@@ -108,6 +113,23 @@ class Song
 
     def to_s
 		@title
+    end
+
+    def generate_hashid
+        @hashid = 0
+        @filename.each_byte do |byte|
+            @hashid += byte
+            @hashid *= byte * 105701
+            @hashid %= 8803
+        end
+
+        @hashid += 1
+        while @hashid < 999
+            @hashid *= @filename[0] * 105701
+            @hashid %= 8803
+        end
+
+        @hashid = @hashid.to_s
     end
 
     def unzip_to_tmp
@@ -187,7 +209,7 @@ class Song
 	end
 
     def match term
-        @upper.include?(term)
+        @upper.include?(term) or @hashid.include?(term)
     end
 
 end
