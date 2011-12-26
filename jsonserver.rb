@@ -58,6 +58,19 @@ class JsonServer
                     end
                     result = { "songs" => songHashList }
                     connection.puts(result.to_json)
+                elsif params.include?("status")
+                    result = { 
+                        "now_playing" => @player.now_playing.to_s.gsub(/ - /, "\n"),
+                        "next_song" => @player.next_song.to_s.gsub(/ - /, "\n"),
+                        "queue_size" => @player.queue_size
+                    }
+                    connection.puts(result.to_json)
+                elsif params.include?("stop")
+                    @player.stop
+                    connection.puts({"result" => "ok"}.to_json)
+                elsif params.include?("restart")
+                    @player.restart
+                    connection.puts({"result" => "ok"}.to_json)
                 end
             end
             connection.close

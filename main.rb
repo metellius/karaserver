@@ -15,25 +15,26 @@ db = Database.new
 db.addFolder("/home/harald/Karaoke/")
 db.sort!
 
-db.songs.each do |song|
-    puts song.hashid + " " + song.to_s
-end
-exit 0
+#db.songs.each do |song|
+    #puts song.hashid + " " + song.to_s
+#end
 
 player = Player.new
 
-jsonserver = JsonServer.new(db, player, 8888)
-jsonserver.listen
-
-
 Thread.new do
-    webserver = WebServer.new(db, player, 7777)
-    webserver.listen
+    jsonserver = JsonServer.new(db, player, 8888)
+    jsonserver.listen
 end
 
-Thread.new do
-    server = Server.new(db, player, 5555)
-    server.listen
-end
+
+#Thread.new do
+    #webserver = WebServer.new(db, player, 7777)
+    #webserver.listen
+#end
+
+#Thread.new do
+    #server = Server.new(db, player, 5555)
+    #server.listen
+#end
 
 player.play_queue

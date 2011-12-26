@@ -93,7 +93,11 @@ class Song
 		@upper = filename.gsub("/home/harald", "").upcase
 
 		@title = title.clone
-		[".cdg", ".CDG", ".zip", ".ZIP", ".avi", ".AVI", ".mpg", ".MPG"].each do |ext|
+		[".cdg", ".CDG",
+            ".zip", ".ZIP",
+            ".avi", ".AVI",
+            ".mpg", ".MPG",
+            ".flv", ".FLV"].each do |ext|
 			@title.gsub!(ext, "")
 		end
 
@@ -102,6 +106,7 @@ class Song
 		@title.gsub!("[video][jap] カラオケ", "") 
 		@title.gsub!("[video] ", "") 
 		@title.gsub!("[korea] ", "") 
+		@title.gsub!("[korean] ", "") 
         @title.gsub!(/\b\w/){$&.upcase} #titlecase
 		@title.strip!
 

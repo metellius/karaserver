@@ -16,10 +16,22 @@ class Player
         @playing = nil
 
 		restore_backup
+    end
 
+    def now_playing
+        @playing
+    end
+
+    def next_song
+        @queue.first
+    end
+
+    def queue_size
+        @queue.size
     end
 
     def queue song
+        puts "queue: " + song.to_s
 		#l = Qt::Label.new("<h1>halla</h1>")
 		#l.setWindowFlags(Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint)
 		#l.show
@@ -82,6 +94,7 @@ class Player
             @pause.hide
 
             @playing = song
+            puts "about to play " + song.to_s
             song.play
             @playing = nil
             @pause.show
@@ -111,9 +124,11 @@ class Player
     def stop
         return if not @playing
         @playing.stop
+		backup_queue
     end
 
     def restart
+        puts "restart"
         return if not @playing
         @playing.restart
     end
