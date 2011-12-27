@@ -1,7 +1,7 @@
 =begin
 ** Form generated from reading ui file 'pause.ui'
 **
-** Created: Tue Dec 27 19:53:09 2011
+** Created: Tue Dec 27 21:32:28 2011
 **      by: Qt User Interface Compiler version 4.7.3
 **
 ** WARNING! All changes made in this file will be lost when recompiling ui file!
@@ -12,7 +12,7 @@ class Ui_PauseDisplay
     attr_reader :scoreFrame
     attr_reader :verticalLayout_2
     attr_reader :label_2
-    attr_reader :scoreLabel
+    attr_reader :performanceLabel
     attr_reader :frame
     attr_reader :verticalLayout_3
     attr_reader :label
@@ -105,18 +105,18 @@ class Ui_PauseDisplay
 
     @verticalLayout_2.addWidget(@label_2)
 
-    @scoreLabel = Qt::Label.new(@scoreFrame)
-    @scoreLabel.objectName = "scoreLabel"
-    @sizePolicy1.heightForWidth = @scoreLabel.sizePolicy.hasHeightForWidth
-    @scoreLabel.sizePolicy = @sizePolicy1
+    @performanceLabel = Qt::Label.new(@scoreFrame)
+    @performanceLabel.objectName = "performanceLabel"
+    @sizePolicy1.heightForWidth = @performanceLabel.sizePolicy.hasHeightForWidth
+    @performanceLabel.sizePolicy = @sizePolicy1
     @font1 = Qt::Font.new
     @font1.pointSize = 78
     @font1.bold = true
     @font1.weight = 75
-    @scoreLabel.font = @font1
-    @scoreLabel.alignment = Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
+    @performanceLabel.font = @font1
+    @performanceLabel.alignment = Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter
 
-    @verticalLayout_2.addWidget(@scoreLabel)
+    @verticalLayout_2.addWidget(@performanceLabel)
 
 
     @verticalLayout.addWidget(@scoreFrame)
@@ -169,8 +169,8 @@ class Ui_PauseDisplay
 
     def retranslateUi(pauseDisplay)
     pauseDisplay.windowTitle = Qt::Application.translate("PauseDisplay", "Form", nil, Qt::Application::UnicodeUTF8)
-    @label_2.text = Qt::Application.translate("PauseDisplay", "Your score:", nil, Qt::Application::UnicodeUTF8)
-    @scoreLabel.text = Qt::Application.translate("PauseDisplay", "99", nil, Qt::Application::UnicodeUTF8)
+    @label_2.text = Qt::Application.translate("PauseDisplay", "Your performance:", nil, Qt::Application::UnicodeUTF8)
+    @performanceLabel.text = Qt::Application.translate("PauseDisplay", "99", nil, Qt::Application::UnicodeUTF8)
     @label.text = Qt::Application.translate("PauseDisplay", "Next up", nil, Qt::Application::UnicodeUTF8)
     @nextLabel.text = Qt::Application.translate("PauseDisplay", "SF001 Michael Jackson - Bad", nil, Qt::Application::UnicodeUTF8)
     end # retranslateUi

@@ -58,8 +58,8 @@ class Player
 	end
 
     def play_queue
+        song_has_been_sung = true
         @pause.set_scoreFrame_visible false
-        song_has_been_sung = false
         loop do
 
             @playing = @queue.shift
@@ -69,8 +69,7 @@ class Player
 
             if song_has_been_sung
                 @pause.set_scoreFrame_visible true
-                @pause.play_score_animation
-                sleep 3
+                @pause.show_timed 3.0
                 @pause.set_scoreFrame_visible false
                 song_has_been_sung = false
             else

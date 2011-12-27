@@ -471,12 +471,12 @@
          </sizepolicy>
         </property>
         <property name="text">
-         <string>Your score:</string>
+         <string>Your performance:</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="scoreLabel">
+       <widget class="QLabel" name="performanceLabel">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
           <horstretch>0</horstretch>
@@ -494,7 +494,7 @@
          <string>99</string>
         </property>
         <property name="alignment">
-         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
