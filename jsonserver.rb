@@ -1,6 +1,7 @@
 require 'db.rb'
 require 'socket'
 require 'cgi'
+require 'rubygems'
 require 'json'
 
 class JsonServer
