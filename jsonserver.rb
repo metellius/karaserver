@@ -65,12 +65,32 @@ class JsonServer
                         "queue_size" => @player.queue_size
                     }
                     connection.puts(result.to_json)
+                elsif params.include?( "mic_up")
+                    @player.change_sound(:Mic_up)
+                    connection.puts({"result" => "ok"}.to_json)
+                elsif params.include?( "mic_down")
+                    @player.change_sound(:Mic_down)
+                    connection.puts({"result" => "ok"}.to_json)
+                elsif params.include?( "music_up")
+                    @player.change_sound(:Music_up)
+                    connection.puts({"result" => "ok"}.to_json)
+                elsif params.include?( "music_down")
+                    @player.change_sound(:Music_down)
+                    connection.puts({"result" => "ok"}.to_json)
+                elsif params.include?( "pitch_up")
+                    @player.change_sound(:Pitch_up)
+                    connection.puts({"result" => "ok"}.to_json)
+                elsif params.include?( "pitch_down")
+                    @player.change_sound(:Pitch_down)
+                    connection.puts({"result" => "ok"}.to_json)
+
                 elsif params.include?("stop")
                     @player.stop
                     connection.puts({"result" => "ok"}.to_json)
                 elsif params.include?("restart")
                     @player.restart
                     connection.puts({"result" => "ok"}.to_json)
+
                 end
             end
             connection.close
