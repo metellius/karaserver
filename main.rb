@@ -18,6 +18,7 @@ db.sort!
 #db.songs.each do |song|
     #puts song.hashid + " " + song.to_s
 #end
+#exit 0
 
 player = Player.new
 

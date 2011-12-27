@@ -87,6 +87,13 @@ class Song
 			@type = :Vid
 		when "MPG"
 			@type = :Vid
+		when "FLV"
+			@type = :Vid
+		when "MP4"
+			@type = :Vid
+        else
+            puts "ERROR, no type found for #{filename}"
+            @type = :Vid
         end
         @filename = filename
 
@@ -122,7 +129,7 @@ class Song
 
     def generate_hashid
         @hashid = 0
-        @filename.each_byte do |byte|
+        @title.upcase.each_byte do |byte|
             @hashid += byte
             @hashid *= byte * 105701
             @hashid %= 8803

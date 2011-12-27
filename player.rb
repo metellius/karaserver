@@ -58,47 +58,38 @@ class Player
 	end
 
     def play_queue
+        @pause.set_scoreFrame_visible false
+        song_has_been_sung = false
         loop do
-            song = @queue.shift
-            if song == nil
-                startstopmusic
 
-                @pause.set_next_song("")
-                @pause.set_queue("")
+            @playing = @queue.shift
+            @pause.set_next_song(@playing.to_s)
+            @pause.show
+            @pause.raise
 
-                while @queue.empty?
-                    @pause.repaint
-                    Qt::CoreApplication.processEvents
-                    sleep(0.5)
-                end
-
-                startstopmusic
-                next
+            if song_has_been_sung
+                @pause.set_scoreFrame_visible true
+                @pause.play_score_animation
+                sleep 3
+                @pause.set_scoreFrame_visible false
+                song_has_been_sung = false
+            else
+                @pause.show_timed 4.0
             end
 
-            @pause.set_next_song(song.to_s)
-
-            q = @queue[0,5].map{|qsong| qsong.to_s}.join("\n")
-			if @queue.size > 5
-				q += "\n[+++]"
-			end
-
-            @pause.set_queue(q)
-
-            8.times do
-                @pause.repaint
-                Qt::CoreApplication.processEvents
-                sleep(0.5)
+            if not @playing
+                while @queue.empty?
+                    @pause.show_timed 0.5
+                end
+                next
             end
 
             @pause.hide
 
-            @playing = song
-            puts "about to play " + song.to_s
-            song.play
+            puts "about to play " + @playing.to_s
+            @playing.play
             @playing = nil
-            @pause.show
-            @pause.raise
+            song_has_been_sung = true
 
         end
     end
